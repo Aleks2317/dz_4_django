@@ -1,7 +1,7 @@
 import logging
 from django.shortcuts import render, get_object_or_404
 from .models import Author, Post, Comment
-from .forms import Author_Form, Post_Form
+from .forms import AuthorForm, PostForm
 from datetime import date
 
 logger = logging.getLogger(__name__)
@@ -38,7 +38,7 @@ def info_post(request, post_id):
 def author_form(request):
     if request.method == 'POST':
         logger.info('**********start author_form_create_db')
-        form = Author_Form(request.POST)
+        form = AuthorForm(request.POST)
         message = 'Ошибка в данных'
         if form.is_valid():
             name = form.cleaned_data['name']
@@ -56,14 +56,14 @@ def author_form(request):
             author.save()
             message = 'Автор сохранён'
     else:
-        form = Author_Form()
+        form = AuthorForm()
         message = 'Заполните форму'
     return render(request, 'task_4_5_app/author_create_form.html', {'form': form, 'message': message})
 
 
 def post_form(request):
     if request.method == 'POST':
-        form = Post_Form(request.POST)
+        form = PostForm(request.POST)
         message = 'Ошибка в данных'
         if form.is_valid():
             title = form.cleaned_data['title']
@@ -85,7 +85,7 @@ def post_form(request):
             post.save()
             message = 'Статья сохранена'
     else:
-        form = Post_Form()
+        form = PostForm()
         message = 'Создайте статью'
         title = 'Post create'
     return render(request, 'task_4_5_app/post_create_form.html', {'form': form, 'message': message, 'title': title})

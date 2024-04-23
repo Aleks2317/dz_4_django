@@ -2,7 +2,7 @@ import logging
 from django.shortcuts import render
 from random import randint, choice
 from .models import Coin, Cube, Number
-from .forms import Game_Form
+from .forms import GameForm
 
 logger = logging.getLogger(__name__)
 
@@ -100,11 +100,11 @@ def count_game_cube(request, count: int = None):
 
 def game(request):
     if request.method == 'POST':
-        form = Game_Form(request.POST)
+        form = GameForm(request.POST)
         if form.is_valid():
             game = form.cleaned_data['game']
             count_game = form.cleaned_data['count_game']
             logger.info(f'Представление game {game = }, {count_game = }')
     else:
-        form = Game_Form()
+        form = GameForm()
     return render(request, "task_3_app/index.html", {'form': form, 'title': 'Игра на выбор!'})

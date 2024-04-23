@@ -1,10 +1,10 @@
 import logging
 
 from django.core.files.storage import FileSystemStorage
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render
 from .models import Product
-from .forms import Product_update_Form
-from datetime import date
+from .forms import ProductUpdateForm
+
 
 logger = logging.getLogger(__name__)
 
@@ -22,29 +22,23 @@ def index(request):
 
 def product_upgrete(request):
     if request.method == 'POST':
-        logger.info('**********start product_upgrete')
-        form = Product_update_Form(request.POST, request.FILES)
+        logger.info('********** start product_upgrete')
+        form = ProductUpdateForm(request.POST, request.FILES)
+        logger.info(f'********** ProductUpdateForm(request.POST, request.FILES) : {form = }')
         message = 'Ошибка в данных'
         if form.is_valid():
-            image = form.cleaned_data['image']
-            fs = FileSystemStorage()
-            fs.save(image.name, image)
-            name = form.cleaned_data['name']
-            description = form.cleaned_data['description']
-            price = form.cleaned_data['price']
-            quantity = form.cleaned_data['quantity']
-            date_registration = form.cleaned_data['date_registration']
+            logger.info('********** work form.is_valid():')
             product = Product(
-                name=name,
-                description=description,
-                price=price,
-                quantity=quantity,
-                date_registration=date_registration.__str__(),
+                name=form.cleaned_data['name'],
+                description=form.cleaned_data['description'],
+                price=form.cleaned_data['price'],
+                quantity=form.cleaned_data['quantity'],
+                date_registration=form.cleaned_data['date_registration'].__str__(),
             )
             product.save()
             message = 'Продукт сохранен сохранён'
     else:
-        form = Product_update_Form()
+        form = ProductUpdateForm()
         message = 'Заполните форму'
-    return render(request, 'shop_app/product_create.html', {'form': form, 'message': message,})
+    return render(request, 'shop_app/product_create.html', {'form': form, 'message': message})
 

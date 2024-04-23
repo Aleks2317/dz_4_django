@@ -3,7 +3,7 @@ from .models import Author
 import datetime
 
 
-class Author_Form(forms.Form):
+class AuthorForm(forms.Form):
     name = forms.CharField(max_length=50, widget=forms.TextInput(attrs={
         'class': 'form-control',
         'placeholder': 'Введите имя автора',
@@ -25,7 +25,7 @@ class Author_Form(forms.Form):
     }))
 
 
-class Post_Form(forms.Form):
+class PostForm(forms.Form):
     title = forms.CharField(max_length=200, widget=forms.TextInput(attrs={
         'class': 'form-control',
         'placeholder': 'Название статьи',

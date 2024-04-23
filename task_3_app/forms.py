@@ -1,7 +1,7 @@
 from django import forms
 
 
-class Game_Form(forms.Form):
+class GameForm(forms.Form):
     game = forms.ChoiceField(choices=[('coin', 'монета'), ('numb', 'кости'), ('number', 'числа')],
                              widget=forms.RadioSelect(attrs={
                                  'class': 'form-check-input',
